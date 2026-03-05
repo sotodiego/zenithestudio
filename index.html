@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zenith Estudio | Arquitectura Ecommerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;700&family=Syncopate:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Dependencias para el Calendario -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://npmcdn.com/flatpickr/dist/themes/dark.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Dependencia para EmailJS -->
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+    <style>
+      body {
+        font-family: "Montserrat", sans-serif;
+        background-color: #0a0a0a;
+        color: #ffffff;
+        scroll-behavior: smooth;
+      }
+
+      .logo-font {
+        font-family: "Syncopate", sans-serif;
+      }
+
+      .text-blue-accent {
+        color: #3b82f6;
+      }
+
+      .bg-dark-soft {
+        background-color: #111111;
+      }
+
+      .border-soft {
+        border-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .nav-link::after {
+        content: "";
+        display: block;
+        width: 0;
+        height: 1px;
+        background: #3b82f6;
+        transition: width 0.3s;
+      }
+
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* Estilos Personalizados para Flatpickr */
+      .flatpickr-calendar {
+        background: #111 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+      }
+
+      .flatpickr-day.selected {
+        background: #3b82f6 !important;
+        border-color: #3b82f6 !important;
+      }
+
+      .flatpickr-months .flatpickr-month,
+      .flatpickr-current-month .flatpickr-monthDropdown-months,
+      .flatpickr-weekdays {
+        background: #111 !important;
+        color: #fff !important;
+      }
+
+      .flatpickr-day {
+        color: rgba(255, 255, 255, 0.7) !important;
+      }
+
+      .flatpickr-day:hover {
+        background: rgba(59, 130, 246, 0.2) !important;
+      }
+      .accent-line {
+        width: 2px;
+        height: 40px;
+        background: linear-gradient(to bottom, #3b82f6, transparent);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Navegación -->
+    <nav
+      class="fixed w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-soft"
+    >
+      <div
+        class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between"
+      >
+        <div class="flex flex-col accent-line mb-4">
+          <span class="logo-font text-xl font-bold tracking-tighter px-[8px]"
+            >ZENITH</span
+          >
+          <span
+            class="text-[8px] tracking-[0.4em] text-blue-500 uppercase font-bold -mt-1 px-[8px]"
+            >Estudio</span
+          >
+        </div>
+        <div
+          class="hidden md:flex space-x-12 text-[10px] uppercase tracking-[0.3em] font-light"
+        >
+          <a href="#inicio" class="nav-link">Inicio</a>
+          <a href="#servicios" class="nav-link">Servicios</a>
+          <a href="#contacto" class="nav-link">Contacto</a>
+        </div>
+        <button
+          onclick="openBookingModal()"
+          class="px-5 py-2 border border-blue-600 text-[10px] uppercase tracking-widest hover:bg-blue-600 transition-all"
+        >
+          Agendar Consultoría
+        </button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+      id="inicio"
+      class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden"
+    >
+      <div
+        class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]"
+      ></div>
+      <div
+        class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10"
+      >
+        <div class="reveal active">
+          <h1 class="text-5xl md:text-7xl font-light leading-tight mb-8">
+            Arquitectura <span class="font-bold italic">Digital</span> de Alto
+            Nivel.
+          </h1>
+          <p
+            class="text-slate-400 text-lg font-light max-w-md mb-10 leading-relaxed"
+          >
+            Escalabilidad y rendimiento para tiendas online complejas. Diseñamos
+            experiencias que convierten.
+          </p>
+          <div class="flex space-x-6 items-center">
+            <a
+              href="#servicios"
+              class="bg-white text-black px-8 py-4 text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-blue-600 hover:text-white transition-all"
+              >Explorar Servicios</a
+            >
+          </div>
+        </div>
+
+        <div
+          class="hidden md:flex justify-end reveal active"
+          style="transition-delay: 0.2s"
+        >
+          <!-- Reinterpretación de la tarjeta en la landing -->
+          <div
+            class="w-[450px] h-[260px] bg-dark-soft border border-soft shadow-2xl p-10 flex flex-col justify-between relative group"
+          >
+            <div
+              class="absolute top-10 right-0 p-4 m-2 flex flex-col gap-3 items-center"
+            >
+              <svg
+                width="24px"
+                height="24px"
+                viewBox="-23.5 0 303 303"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="xMidYMid"
+              >
+                <path
+                  d="M144.852 90.67v172.192l-16.933 10.349-16.946-10.404V90.803l-43.878 27.016v147.255l60.824 37.217 61.339-37.482V117.725L144.852 90.67zM127.919 0L0 77.502v147.274l33.223 19.572V97.06l94.722-57.596 94.81 57.512.391.223-.042 146.929L256 224.776V77.502L127.919 0z"
+                  fill="#EC6737"
+                />
+              </svg>
+
+              <svg
+                fill="#31c0ed"
+                width="24px"
+                height="24px"
+                viewBox="0 0 32 32"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M 1 5.25 C 3.933594 10.816406 9.117188 11.683594 15.40625 11.8125 C 19.117188 11.890625 27.28125 11.574219 27.28125 13.5625 C 27.28125 15.054688 21.84375 19.730469 21.84375 20.6875 C 21.84375 20.6875 25.613281 17.5 27.71875 15.625 C 29.824219 13.75 31 12.640625 31 11.53125 C 31 9.273438 22.269531 9.6875 15.21875 9.6875 C 8.167969 9.6875 4.3125 8.351563 1 5.25 Z M 8.875 22.53125 C 7.707031 22.53125 6.75 23.457031 6.75 24.625 C 6.75 25.792969 7.707031 26.75 8.875 26.75 C 10.042969 26.75 10.96875 25.792969 10.96875 24.625 C 10.96875 23.457031 10.042969 22.53125 8.875 22.53125 Z M 18.625 22.53125 C 17.457031 22.53125 16.53125 23.457031 16.53125 24.625 C 16.53125 25.792969 17.457031 26.75 18.625 26.75 C 19.792969 26.75 20.75 25.792969 20.75 24.625 C 20.75 23.457031 19.792969 22.53125 18.625 22.53125 Z"
+                  />
+                </g>
+              </svg>
+
+              <svg
+                width="24px"
+                height="24px"
+                viewBox="0 -51.5 256 256"
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                preserveAspectRatio="xMidYMid"
+              >
+                <g fill-rule="evenodd">
+                  <path
+                    d="M232.137523,0 L23.7592719,0 C10.5720702,0 -0.103257595,10.7799647 0.000639559736,23.862498 L0.000639559736,103.404247 C0.000639559736,116.591115 10.6767385,127.266612 23.8639402,127.266612 L122.558181,127.266612 L167.667206,152.384995 L157.410382,127.266612 L232.137523,127.266612 C245.325059,127.266612 255.999888,116.591115 255.999888,103.404247 L255.999888,23.862498 C255.999888,10.6752964 245.325059,0 232.137523,0 Z M19.3640061,18.4201481 C16.4334946,18.6294847 14.2355942,19.6761007 12.7703719,21.6645976 C11.3051496,23.5484931 10.781875,25.9556632 11.095813,28.6768382 C17.2707741,67.9247058 23.027062,94.4034429 28.3647436,108.113986 C30.4579757,113.137395 32.8651458,115.5451 35.690989,115.335764 C40.086656,115.021425 45.3196694,108.951332 51.4946305,97.1248185 C54.73908,90.4260478 59.7628237,80.3792294 66.5657276,66.9823567 C72.2170797,86.762992 79.9618646,101.625221 89.6956814,111.567705 C92.417057,114.393415 95.2427665,115.649434 97.9634733,115.440098 C100.371178,115.230761 102.254539,113.974742 103.510558,111.672039 C104.557241,109.683676 104.975914,107.380974 104.766578,104.764601 C104.138568,95.2407893 105.080917,81.9489193 107.69729,64.8892584 C110.417997,47.3063898 113.767382,34.6424627 117.849111,27.1069476 C118.686458,25.5370569 119.000128,23.9670994 118.895794,22.0832708 C118.686458,19.6760338 117.639775,17.6875369 115.651411,16.1176463 C113.663048,14.5477557 111.46468,13.8151445 109.057643,14.0244142 C106.022597,14.2337508 103.719895,15.6989731 102.150205,18.6294847 C95.6614396,30.4560654 91.0560348,49.6088916 88.335328,76.1924977 C84.3579328,66.145211 81.0085475,54.3185634 78.3921746,40.3987506 C77.2411578,34.2238564 74.4154483,31.2933449 69.8100434,31.6073497 C66.670329,31.8166194 64.0538892,33.9098515 61.9606572,37.8869122 L39.0401069,81.5302462 C35.2723159,66.3544807 31.7138615,47.8296643 28.4694119,25.9556632 C27.7368007,20.5133802 24.7016209,18.0014749 19.3640061,18.4201481 Z M221.044022,25.9559976 C228.475136,27.5259551 234.022221,31.5030159 237.789611,38.0965832 C241.138996,43.7482697 242.81302,50.5511737 242.81302,58.7146317 C242.81302,69.4943957 240.092314,79.3325464 234.649562,88.3333508 C228.370134,98.7995112 220.206676,104.032257 210.054854,104.032257 C208.275828,104.032257 206.391799,103.82292 204.402767,103.404247 C196.972321,101.834557 191.425236,97.857831 187.657177,91.264063 C184.308461,85.5076413 182.633768,78.6002028 182.633768,70.5410787 C182.633768,59.7612478 185.355144,49.923164 190.797226,41.0270948 C197.181658,30.5610681 205.345116,25.3280548 215.392603,25.3280548 C217.171629,25.3280548 219.055659,25.5373913 221.044022,25.9559976 Z M216.648622,82.5769291 C220.521015,79.1232099 223.137388,73.9947979 224.602744,67.0873594 C225.021417,64.6802562 225.335087,62.0637496 225.335087,59.3425746 C225.335087,56.3074616 224.707078,53.0630121 223.451058,49.8184957 C221.881368,45.7367667 219.788002,43.5389332 217.275963,43.0155917 C213.508574,42.2829805 209.845518,44.3762126 206.391799,49.5045577 C203.566089,53.4816184 201.786394,57.6680157 200.844713,61.9590813 C200.321038,64.3663182 200.111701,66.9830255 200.111701,69.5993984 C200.111701,72.6344445 200.739711,75.8788272 201.99573,79.1232099 C203.566089,83.2049389 205.658786,85.4026386 208.170825,85.9263145 C210.787198,86.4493215 213.612908,85.2983047 216.648622,82.5769291 Z M172.167608,38.0965832 C168.399549,31.5030159 162.74813,27.5259551 155.422019,25.9559976 C153.432987,25.5373913 151.549626,25.3280548 149.769931,25.3280548 C139.723112,25.3280548 131.559654,30.5610681 125.175223,41.0270948 C119.732472,49.923164 117.011765,59.7612478 117.011765,70.5410787 C117.011765,78.6002028 118.686458,85.5076413 122.035174,91.264063 C125.803233,97.857831 131.350318,101.834557 138.780763,103.404247 C140.769126,103.82292 142.653156,104.032257 144.432851,104.032257 C154.584672,104.032257 162.74813,98.7995112 169.027559,88.3333508 C174.47031,79.3325464 177.191017,69.4943957 177.191017,58.7146317 C177.191017,50.5511737 175.516324,43.7482697 172.167608,38.0965832 Z M158.980072,67.0873594 C157.515384,73.9947979 154.898343,79.1232099 151.02595,82.5769291 C147.990904,85.2983047 145.165195,86.4493215 142.548822,85.9263145 C140.036783,85.4026386 137.943417,83.2049389 136.373727,79.1232099 C135.117707,75.8788272 134.489698,72.6344445 134.489698,69.5993984 C134.489698,66.9830255 134.699034,64.3663182 135.22271,61.9590813 C136.16439,57.6680157 137.943417,53.4816184 140.769126,49.5045577 C144.223514,44.3762126 147.88657,42.2829805 151.65396,43.0155917 C154.165999,43.5389332 156.259365,45.7367667 157.829055,49.8184957 C159.085074,53.0630121 159.713084,56.3074616 159.713084,59.3425746 C159.713084,62.0637496 159.503748,64.6802562 158.980072,67.0873594 Z"
+                    fill="#7F54B3"
+                  ></path>
+                </g>
+              </svg>
+            </div>
+            <div>
+              <h2 class="logo-font text-xl">ZENITH</h2>
+              <p class="text-[8px] tracking-widest text-slate-500 uppercase">
+                Tecnologías y Desarrollo
+              </p>
+            </div>
+            <div class="space-y-2">
+              <div
+                class="h-px w-full bg-gradient-to-r from-blue-600 to-transparent"
+              ></div>
+              <p class="text-xs font-light text-slate-400 italic">
+                "Transformamos ideas en realidad"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CMS Logos / Partners -->
+    <section class="py-20 border-y border-soft bg-dark-soft/50">
+      <div class="max-w-7xl mx-auto px-6">
+        <div
+          class="flex flex-wrap justify-between items-center gap-12 opacity-40 grayscale hover:grayscale-0 transition-all"
+        >
+          <div class="flex items-center space-x-3">
+            <svg
+              width="24px"
+              height="24px"
+              viewBox="-23.5 0 303 303"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="xMidYMid"
+            >
+              <path
+                d="M144.852 90.67v172.192l-16.933 10.349-16.946-10.404V90.803l-43.878 27.016v147.255l60.824 37.217 61.339-37.482V117.725L144.852 90.67zM127.919 0L0 77.502v147.274l33.223 19.572V97.06l94.722-57.596 94.81 57.512.391.223-.042 146.929L256 224.776V77.502L127.919 0z"
+                fill="#EC6737"
+              />
+            </svg>
+            <span class="logo-font text-sm font-bold">MAGENTO</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg
+              fill="#31c0ed"
+              width="24px"
+              height="24px"
+              viewBox="0 0 32 32"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0" />
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M 1 5.25 C 3.933594 10.816406 9.117188 11.683594 15.40625 11.8125 C 19.117188 11.890625 27.28125 11.574219 27.28125 13.5625 C 27.28125 15.054688 21.84375 19.730469 21.84375 20.6875 C 21.84375 20.6875 25.613281 17.5 27.71875 15.625 C 29.824219 13.75 31 12.640625 31 11.53125 C 31 9.273438 22.269531 9.6875 15.21875 9.6875 C 8.167969 9.6875 4.3125 8.351563 1 5.25 Z M 8.875 22.53125 C 7.707031 22.53125 6.75 23.457031 6.75 24.625 C 6.75 25.792969 7.707031 26.75 8.875 26.75 C 10.042969 26.75 10.96875 25.792969 10.96875 24.625 C 10.96875 23.457031 10.042969 22.53125 8.875 22.53125 Z M 18.625 22.53125 C 17.457031 22.53125 16.53125 23.457031 16.53125 24.625 C 16.53125 25.792969 17.457031 26.75 18.625 26.75 C 19.792969 26.75 20.75 25.792969 20.75 24.625 C 20.75 23.457031 19.792969 22.53125 18.625 22.53125 Z"
+                />
+              </g>
+            </svg>
+            <span class="logo-font text-sm font-bold">OPENCART</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <svg
+              width="24px"
+              height="24px"
+              viewBox="0 -51.5 256 256"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              preserveAspectRatio="xMidYMid"
+            >
+              <g fill-rule="evenodd">
+                <path
+                  d="M232.137523,0 L23.7592719,0 C10.5720702,0 -0.103257595,10.7799647 0.000639559736,23.862498 L0.000639559736,103.404247 C0.000639559736,116.591115 10.6767385,127.266612 23.8639402,127.266612 L122.558181,127.266612 L167.667206,152.384995 L157.410382,127.266612 L232.137523,127.266612 C245.325059,127.266612 255.999888,116.591115 255.999888,103.404247 L255.999888,23.862498 C255.999888,10.6752964 245.325059,0 232.137523,0 Z M19.3640061,18.4201481 C16.4334946,18.6294847 14.2355942,19.6761007 12.7703719,21.6645976 C11.3051496,23.5484931 10.781875,25.9556632 11.095813,28.6768382 C17.2707741,67.9247058 23.027062,94.4034429 28.3647436,108.113986 C30.4579757,113.137395 32.8651458,115.5451 35.690989,115.335764 C40.086656,115.021425 45.3196694,108.951332 51.4946305,97.1248185 C54.73908,90.4260478 59.7628237,80.3792294 66.5657276,66.9823567 C72.2170797,86.762992 79.9618646,101.625221 89.6956814,111.567705 C92.417057,114.393415 95.2427665,115.649434 97.9634733,115.440098 C100.371178,115.230761 102.254539,113.974742 103.510558,111.672039 C104.557241,109.683676 104.975914,107.380974 104.766578,104.764601 C104.138568,95.2407893 105.080917,81.9489193 107.69729,64.8892584 C110.417997,47.3063898 113.767382,34.6424627 117.849111,27.1069476 C118.686458,25.5370569 119.000128,23.9670994 118.895794,22.0832708 C118.686458,19.6760338 117.639775,17.6875369 115.651411,16.1176463 C113.663048,14.5477557 111.46468,13.8151445 109.057643,14.0244142 C106.022597,14.2337508 103.719895,15.6989731 102.150205,18.6294847 C95.6614396,30.4560654 91.0560348,49.6088916 88.335328,76.1924977 C84.3579328,66.145211 81.0085475,54.3185634 78.3921746,40.3987506 C77.2411578,34.2238564 74.4154483,31.2933449 69.8100434,31.6073497 C66.670329,31.8166194 64.0538892,33.9098515 61.9606572,37.8869122 L39.0401069,81.5302462 C35.2723159,66.3544807 31.7138615,47.8296643 28.4694119,25.9556632 C27.7368007,20.5133802 24.7016209,18.0014749 19.3640061,18.4201481 Z M221.044022,25.9559976 C228.475136,27.5259551 234.022221,31.5030159 237.789611,38.0965832 C241.138996,43.7482697 242.81302,50.5511737 242.81302,58.7146317 C242.81302,69.4943957 240.092314,79.3325464 234.649562,88.3333508 C228.370134,98.7995112 220.206676,104.032257 210.054854,104.032257 C208.275828,104.032257 206.391799,103.82292 204.402767,103.404247 C196.972321,101.834557 191.425236,97.857831 187.657177,91.264063 C184.308461,85.5076413 182.633768,78.6002028 182.633768,70.5410787 C182.633768,59.7612478 185.355144,49.923164 190.797226,41.0270948 C197.181658,30.5610681 205.345116,25.3280548 215.392603,25.3280548 C217.171629,25.3280548 219.055659,25.5373913 221.044022,25.9559976 Z M216.648622,82.5769291 C220.521015,79.1232099 223.137388,73.9947979 224.602744,67.0873594 C225.021417,64.6802562 225.335087,62.0637496 225.335087,59.3425746 C225.335087,56.3074616 224.707078,53.0630121 223.451058,49.8184957 C221.881368,45.7367667 219.788002,43.5389332 217.275963,43.0155917 C213.508574,42.2829805 209.845518,44.3762126 206.391799,49.5045577 C203.566089,53.4816184 201.786394,57.6680157 200.844713,61.9590813 C200.321038,64.3663182 200.111701,66.9830255 200.111701,69.5993984 C200.111701,72.6344445 200.739711,75.8788272 201.99573,79.1232099 C203.566089,83.2049389 205.658786,85.4026386 208.170825,85.9263145 C210.787198,86.4493215 213.612908,85.2983047 216.648622,82.5769291 Z M172.167608,38.0965832 C168.399549,31.5030159 162.74813,27.5259551 155.422019,25.9559976 C153.432987,25.5373913 151.549626,25.3280548 149.769931,25.3280548 C139.723112,25.3280548 131.559654,30.5610681 125.175223,41.0270948 C119.732472,49.923164 117.011765,59.7612478 117.011765,70.5410787 C117.011765,78.6002028 118.686458,85.5076413 122.035174,91.264063 C125.803233,97.857831 131.350318,101.834557 138.780763,103.404247 C140.769126,103.82292 142.653156,104.032257 144.432851,104.032257 C154.584672,104.032257 162.74813,98.7995112 169.027559,88.3333508 C174.47031,79.3325464 177.191017,69.4943957 177.191017,58.7146317 C177.191017,50.5511737 175.516324,43.7482697 172.167608,38.0965832 Z M158.980072,67.0873594 C157.515384,73.9947979 154.898343,79.1232099 151.02595,82.5769291 C147.990904,85.2983047 145.165195,86.4493215 142.548822,85.9263145 C140.036783,85.4026386 137.943417,83.2049389 136.373727,79.1232099 C135.117707,75.8788272 134.489698,72.6344445 134.489698,69.5993984 C134.489698,66.9830255 134.699034,64.3663182 135.22271,61.9590813 C136.16439,57.6680157 137.943417,53.4816184 140.769126,49.5045577 C144.223514,44.3762126 147.88657,42.2829805 151.65396,43.0155917 C154.165999,43.5389332 156.259365,45.7367667 157.829055,49.8184957 C159.085074,53.0630121 159.713084,56.3074616 159.713084,59.3425746 C159.713084,62.0637496 159.503748,64.6802562 158.980072,67.0873594 Z"
+                  fill="#7F54B3"
+                ></path>
+              </g>
+            </svg>
+            <span class="logo-font text-sm font-bold">WOOCOMMERCE</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Servicios -->
+    <section id="servicios" class="py-32 px-6">
+      <div class="max-w-7xl mx-auto">
+        <div class="mb-24 reveal">
+          <h2 class="text-4xl font-light mb-4">
+            Soluciones <span class="font-bold">End-to-End</span>
+          </h2>
+          <div class="h-1 w-20 bg-blue-600"></div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-1px bg-soft">
+          <div class="bg-[#0a0a0a] p-12 reveal">
+            <div class="text-blue-500 mb-8">
+              <svg
+                class="w-10 h-10"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-4 uppercase tracking-tighter">
+              Arquitectura Empresarial
+            </h3>
+            <p class="text-slate-400 font-light text-sm leading-relaxed">
+              Configuración y optimización de servidores para entornos de
+              mediano a alto tráfico.
+            </p>
+          </div>
+          <div class="bg-[#0a0a0a] p-12 reveal" style="transition-delay: 0.1s">
+            <div class="text-blue-500 mb-8">
+              <svg
+                class="w-10 h-10"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M11 11V4.5M4.5 11H11m0 0l1.25 1.25M11 11l-1.25 1.25M11 11V17.5M11 11H17.5M11 11l1.25-1.25M11 11l-1.25-1.25"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-4 uppercase tracking-tighter">
+              Integración API
+            </h3>
+            <p class="text-slate-400 font-light text-sm leading-relaxed">
+              Conectamos tu ecommerce con ERPs, CRMs y pasarelas de pago
+              personalizadas sin fricciones.
+            </p>
+          </div>
+          <div class="bg-[#0a0a0a] p-12 reveal" style="transition-delay: 0.2s">
+            <div class="text-blue-500 mb-8">
+              <svg
+                class="w-10 h-10"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-4 uppercase tracking-tighter">
+              Auditoría & Seguridad
+            </h3>
+            <p class="text-slate-400 font-light text-sm leading-relaxed">
+              Blindaje de transacciones y optimización de base de datos para
+              garantizar la integridad total.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-32 px-6 bg-dark-soft">
+      <div class="max-w-3xl mx-auto text-center reveal">
+        <h2 class="logo-font text-3xl font-bold mb-12">
+          Hablemos de tu proyecto
+        </h2>
+        <form id="contactForm" class="space-y-6 text-left">
+          <div class="grid md:grid-cols-2 gap-6">
+            <input
+              type="text"
+              name="user_name"
+              placeholder="NOMBRE"
+              required
+              class="bg-transparent border-b border-soft p-4 w-full text-[10px] tracking-widest outline-none focus:border-blue-600 transition-colors"
+            />
+            <input
+              type="email"
+              name="user_email"
+              placeholder="EMAIL"
+              required
+              class="bg-transparent border-b border-soft p-4 w-full text-[10px] tracking-widest outline-none focus:border-blue-600 transition-colors"
+            />
+          </div>
+          <textarea
+            name="message"
+            placeholder="Cuentanos sobre tu proyecto, desafíos o cualquier consulta que tengas"
+            rows="4"
+            required
+            class="bg-transparent border-b border-soft p-4 w-full text-[10px] tracking-widest outline-none focus:border-blue-600 transition-colors"
+          ></textarea>
+          <div class="flex justify-center pt-8">
+            <button
+              type="submit"
+              class="bg-blue-600 px-12 py-4 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-white hover:text-black transition-all"
+            >
+              Enviar Solicitud
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-soft">
+      <div
+        class="max-w-7xl mx-auto px-6 flex flex-col md:row items-center justify-between gap-8"
+      >
+        <div class="flex flex-col items-center md:items-start">
+          <span class="logo-font text-lg font-bold">ZENITH</span>
+          <span class="text-[7px] tracking-[0.5em] text-slate-500 uppercase"
+            >© 2026 Zenith Estudio</span
+          >
+        </div>
+        <!-- <div class="flex space-x-8 text-[9px] uppercase tracking-widest text-slate-500">
+                <a href="#" class="hover:text-white transition-colors">LinkedIn</a>
+                <a href="#" class="hover:text-white transition-colors">Twitter</a>
+                <a href="#" class="hover:text-white transition-colors">GitHub</a>
+            </div> -->
+      </div>
+    </footer>
+
+    <!-- Modal de Reserva -->
+    <div
+      id="bookingModal"
+      class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-sm p-6"
+    >
+      <div
+        class="bg-dark-soft border border-soft w-full max-w-lg p-10 relative reveal active"
+      >
+        <button
+          onclick="closeBookingModal()"
+          class="absolute top-6 right-6 text-slate-500 hover:text-white transition-colors"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
+          </svg>
+        </button>
+
+        <h2 class="logo-font text-2xl font-bold mb-2">
+          Reserva tu Consultoría
+        </h2>
+        <p class="text-slate-400 text-[10px] tracking-widest uppercase mb-8">
+          Selecciona una fecha y hora
+        </p>
+
+        <form id="bookingForm" class="space-y-6">
+          <div>
+            <input
+              type="text"
+              name="user_name"
+              placeholder="NOMBRE COMPLETO"
+              required
+              class="bg-transparent border-b border-soft p-4 w-full text-[10px] tracking-widest outline-none focus:border-blue-600 transition-colors"
+            />
+          </div>
+          <div>
+            <input
+              type="email"
+              name="user_email"
+              placeholder="EMAIL"
+              required
+              class="bg-transparent border-b border-soft p-4 w-full text-[10px] tracking-widest outline-none focus:border-blue-600 transition-colors"
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              id="booking-date"
+              name="booking_date"
+              placeholder="FECHA Y HORA"
+              required
+              class="bg-transparent border-b border-soft p-4 w-full text-[10px] tracking-widest outline-none focus:border-blue-600 transition-colors"
+            />
+          </div>
+          <div>
+            <textarea
+              name="message"
+              placeholder="¿EN QUÉ PODEMOS AYUDARTE?"
+              rows="3"
+              class="bg-transparent border-b border-soft p-4 w-full text-[10px] tracking-widest outline-none focus:border-blue-600 transition-colors"
+            ></textarea>
+          </div>
+
+          <div class="pt-4">
+            <button
+              type="submit"
+              class="w-full bg-blue-600 py-4 text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-white hover:text-black transition-all"
+            >
+              Confirmar Reserva
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Animación al hacer scroll
+      const reveals = document.querySelectorAll(".reveal");
+
+      const revealOnScroll = () => {
+        reveals.forEach((el) => {
+          const windowHeight = window.innerHeight;
+          const revealTop = el.getBoundingClientRect().top;
+          const revealPoint = 150;
+
+          if (revealTop < windowHeight - revealPoint) {
+            el.classList.add("active");
+          }
+        });
+      };
+
+      window.addEventListener("scroll", revealOnScroll);
+      // Disparar una vez al cargar
+      revealOnScroll();
+
+      // Lógica del Modal de Reserva
+      const bookingModal = document.getElementById("bookingModal");
+
+      function openBookingModal() {
+        bookingModal.classList.remove("hidden");
+        bookingModal.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeBookingModal() {
+        bookingModal.classList.add("hidden");
+        bookingModal.classList.remove("flex");
+        document.body.style.overflow = "auto";
+      }
+
+      // Inicializar Flatpickr
+      flatpickr("#booking-date", {
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+        minDate: "today",
+        locale: "es",
+        disableMobile: "true",
+      });
+
+      // Inicializar EmailJS (El usuario debe poner su PUBLIC_KEY aquí)
+      (function () {
+        emailjs.init("5_a8Lo_WJsztK-PPm");
+      })();
+
+      document
+        .getElementById("bookingForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const btn = this.querySelector('button[type="submit"]');
+          btn.innerText = "ENVIANDO...";
+          btn.disabled = true;
+
+          // Simulación de envío con EmailJS
+          // NOTA: Para que funcione real, el usuario debe configurar su Service ID y Template ID
+          emailjs.sendForm("service_0ledpd4", "template_4zo2ahm", this).then(
+            function () {
+              alert(
+                "¡Reserva enviada con éxito! Nos pondremos en contacto pronto.",
+              );
+              closeBookingModal();
+              btn.innerText = "CONFIRMAR RESERVA";
+              btn.disabled = false;
+            },
+            function (error) {
+              console.log("FAILED...", error);
+              alert(
+                "Hubo un error al enviar la reserva. Por favor, inténtalo de nuevo.",
+              );
+              btn.innerText = "CONFIRMAR RESERVA";
+              btn.disabled = false;
+            },
+          );
+        });
+
+      // Lógica del Formulario de Contacto Principal
+      document
+        .getElementById("contactForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const btn = this.querySelector('button[type="submit"]');
+          btn.innerText = "ENVIANDO...";
+          btn.disabled = true;
+
+          emailjs.sendForm("service_0ledpd4", "template_4zo2ahm", this).then(
+            function () {
+              alert(
+                "¡Mensaje enviado con éxito! Nos pondremos en contacto pronto.",
+              );
+              document.getElementById("contactForm").reset();
+              btn.innerText = "ENVIAR SOLICITUD";
+              btn.disabled = false;
+            },
+            function (error) {
+              console.log("FAILED...", error);
+              alert(
+                "Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo.",
+              );
+              btn.innerText = "ENVIAR SOLICITUD";
+              btn.disabled = false;
+            },
+          );
+        });
+    </script>
+  </body>
+</html>
